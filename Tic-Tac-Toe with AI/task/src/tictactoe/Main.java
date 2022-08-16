@@ -2,28 +2,57 @@ package tictactoe;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
-    final static Scanner scanner = new Scanner(System.in);
-    private static char[][] myBoard = new char[3][3];
-    public static void main(String[] args) {
-        String symbols = scanner.next();
-        myBoard = initializeBoard(symbols);
-        printBoard();
-        move(checkPiece());
-        printBoard();
-        System.out.println(checkResult());
-    }
-
-    static char[][] initializeBoard(String symbols) {
-        char [][] board = new char[3][3];
-        for (int i = 0; i <3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = symbols.charAt(3 * i + j);
+class computer {
+    static int[] easyMove(char[][] board) {
+        Random random = new Random();
+        int[] coo = new int[2];
+        System.out.println("Making move level \"easy\"");
+        while (true) {
+            coo[0] = random.nextInt(3);
+            coo[1] = random.nextInt(3);
+            if (board[coo[0]][coo[1]] == '_') {
+                return coo;
             }
         }
-        return board;
+    }
+}
+
+class player {
+    final static Scanner scanner = new Scanner(System.in);
+    static int[] playerMove(char[][] board) {
+        while (true) {
+            try {
+                System.out.print("Enter the coordinates: ");
+                int coo1 = scanner.nextInt();
+                int coo2 = scanner.nextInt();
+                if (coo1 > 3 || coo1 < 1 || coo2 > 3 || coo2 < 1) {
+                    System.out.println("Coordinates should be from 1 to 3!");
+                    continue;
+                }
+                if (board[coo1 - 1][coo2 - 1] == '_') {
+                    return new int[]{coo1 - 1, coo2 - 1};
+                }
+                System.out.println("This cell is occupied! Choose another one!");
+            } catch (InputMismatchException e) {
+                System.out.println("You should enter numbers!");
+                scanner.next();
+            }
+        }
+    }
+}
+public class Main {
+    final static Scanner scanner = new Scanner(System.in);
+    private static final char[][] myBoard = new char[3][3];
+
+    static void initializeBoard() {
+        for (int i = 0; i <3; i++) {
+            for (int j = 0; j < 3; j++) {
+                myBoard[i][j] = '_';
+            }
+        }
     }
     static void printBoard() {
         String dashes = "---------";
@@ -89,28 +118,8 @@ public class Main {
         }
         return "Draw";
     }
-    static void move(char piece) {
-        while (true) {
-            try {
-                System.out.print("Enter the coordinates: ");
-                int coo1 = scanner.nextInt();
-                int coo2 = scanner.nextInt();
-                if (coo1 > 3 || coo1 < 1 || coo2 > 3 || coo2 < 1) {
-                    System.out.println("Coordinates should be from 1 to 3!");
-                    continue;
-                }
-                if (myBoard[coo1 - 1][coo2 - 1] == '_') {
-                    if (piece != 'U') {
-                        myBoard[coo1 - 1][coo2 - 1] = piece;
-                        break;
-                    }
-                }
-                System.out.println("This cell is occupied! Choose another one!");
-            } catch (InputMismatchException e) {
-                System.out.println("You should enter numbers!");
-                scanner.next();
-            }
-        }
+    static void makeMove(int[] coo, char piece) {
+        myBoard[coo[0]][coo[1]] = piece;
     }
     static char checkPiece() {
         int numX = 0, numO = 0;
@@ -130,5 +139,22 @@ public class Main {
         } else {
             return 'U';
         }
+    }
+    public static void main(String[] args) {
+        initializeBoard();
+        printBoard();
+        char piece = 'X';
+        while (checkResult().equals("Game not finished")) {
+            if (piece == 'X') {
+                makeMove(player.playerMove(myBoard), piece);
+                printBoard();
+                piece = 'O';
+            } else if (piece == 'O') {
+                makeMove(computer.easyMove(myBoard), piece);
+                printBoard();
+                piece = 'X';
+            }
+        }
+        System.out.println(checkResult());
     }
 }
