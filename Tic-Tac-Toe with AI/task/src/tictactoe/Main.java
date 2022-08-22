@@ -11,13 +11,15 @@ public class Main {
                 return new Computer();
             case "user":
                 return new Human();
+            case "medium":
+                return new Medium();
         }
         return null;
     }
     private static Game menu() {
         Scanner scanner = new Scanner(System.in);
         String[] commands;
-        String[] modes = {"easy", "user"};
+        String[] modes = {"easy", "user", "medium"};
         do {
             System.out.print("Input command: ");
             String input = scanner.nextLine();
