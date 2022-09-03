@@ -4,8 +4,13 @@ import java.util.Arrays;
 
 public class Medium extends Player{
 
+    public Medium(char piece) {
+        this.piece = piece;
+    }
+
     @Override
-    int[] move(Board board) {
+    int[] move(Board board, char piece) {
+        System.out.println("Making move level \"medium\"");
         char[][] toWinX = {{'_', 'X', 'X'}, {'X', '_', 'X'}, {'X', 'X', '_'}};
         char[][] toWinO = {{'_', 'O', 'O'}, {'O', '_', 'O'}, {'O', 'O', '_'}};
         char [] diagonal1 = {board.myBoard[0][0], board.myBoard[1][1], board.myBoard[2][2]};

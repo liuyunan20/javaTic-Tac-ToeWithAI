@@ -19,11 +19,11 @@ public class Game {
         char piece = 'X';
         while (board.checkResult().equals("Game not finished")) {
             if (piece == 'X') {
-                board.makeMove(playerX.move(board), piece);
+                board.makeMove(playerX.move(board, piece), piece);
                 board.printBoard();
                 piece = 'O';
             } else {
-                board.makeMove(playerO.move(board), piece);
+                board.makeMove(playerO.move(board, piece), piece);
                 board.printBoard();
                 piece = 'X';
             }

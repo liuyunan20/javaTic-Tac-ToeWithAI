@@ -4,9 +4,15 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Human extends Player {
+
+
+
+    public Human(char piece) {
+        this.piece = piece;
+    }
     final static Scanner scanner = new Scanner(System.in);
     @Override
-    public int[] move(Board board) {
+    public int[] move(Board board, char piece) {
         while (true) {
             try {
                 System.out.print("Enter the coordinates: ");

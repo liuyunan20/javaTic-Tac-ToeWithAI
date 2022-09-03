@@ -1,6 +1,8 @@
 package tictactoe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Board {
     public final char[][] myBoard = new char[3][3];
@@ -81,4 +83,26 @@ public class Board {
     void makeMove(int[] coo, char piece) {
         myBoard[coo[0]][coo[1]] = piece;
     }
+
+    List<int[]> availableSpot() {
+        List<int[]> spots = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (myBoard[i][j] == '_') {
+                    int[] coo = new int[] {i, j};
+                    spots.add(coo);
+                }
+            }
+        }
+        return spots;
+    }
+
+    Board copy() {
+        Board newBoard = new Board();
+        for (int i = 0; i < 3; i++) {
+            System.arraycopy(myBoard[i], 0, newBoard.myBoard[i], 0, 3);
+            }
+        return newBoard;
+    }
 }
+
